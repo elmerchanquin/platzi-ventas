@@ -1,27 +1,26 @@
 import sys
 
 
-clients = 'pablo,ricardo,'
+clients = ['pablo', 'ricardo']
 
 def create_client(client_name):
     global clients
 
     if client_name not in clients:
-        clients += client_name
-        _add_comma()
+        clients.append(client_name)
     else:
         print('Client already is is the client\'s list')
 
 def list_clients():
-    global clients
+    for idx, client in enumerate(clients):
+	    print ('{} : {}'.format(idx, client))
 
-    print(clients)
-
-def update_client(client_name, updated_client_name):
+def update_client(client_name, updated_name):
     global clients
 
     if client_name in clients:
-        clients = clients.replace(client_name, updated_client_name)
+        index = clients.index(client_name)
+        clients[index] = updated_name
     else:
         print('Client is not in clients list')
 
@@ -30,25 +29,17 @@ def delete_client(client_name):
     global clients
 
     if client_name in clients:
-        clients = clients.replace(client_name + ',', '')
+        clients.remove(client_name)
     else:
         print('Client is not in clients list')
 
 
 def search_client(client_name):
-    clients_list = clients.split(',')
-
-    for client in clients_list:
+    for client in clients:
         if client != client_name:
             continue
         else:
             return True
-
-
-def _add_comma():
-    global clients
-
-    clients += ','
 
 
 def _print_welcome():
@@ -101,8 +92,8 @@ if __name__ == '__main__':
             print('The client: {} is not in our client\'s list'.format(client_name))
     elif command == 'U':
         client_name = _get_client_name()
-        updated_client_name = input('What is the new client name? ')
-        update_client(client_name, updated_client_name)
+        updated_name = input('What is the new client name? ')
+        update_client(client_name, updated_name)
         list_clients()
     else:
         print('Invalid command')
